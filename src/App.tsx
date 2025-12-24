@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import LandingPage from './pages/LandingPage';
 import HomePage from './pages/HomePage';
 import SantasRoom from './pages/SantasRoom';
@@ -8,31 +8,21 @@ type PageName = 'landing' | 'home' | 'santas-room' | 'wish-tree';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<PageName>('landing');
-  const [wishes, setWishes] = useState<string[]>([]);
-  // This flag now specifically means "show buttons immediately on home page load"
   const [showHomeButtonsOnLoad, setShowHomeButtonsOnLoad] = useState(false);
 
   useEffect(() => {
-    // This is a full reset of the app state, correct.
-    sessionStorage.removeItem('homeVideoPlayed'); 
+    // This logic to reset the journey on a fresh load is no longer needed
+    // as the home page is now fully self-contained.
   }, []);
 
   const navigate = (page: PageName) => {
-    // If we are going to the home page FROM another page (not landing), set the flag.
     if (page === 'home' && currentPage !== 'landing') {
       setShowHomeButtonsOnLoad(true);
     }
-    // If we ever go back to the start, reset the flag.
     if (page === 'landing') {
       setShowHomeButtonsOnLoad(false);
     }
     setCurrentPage(page);
-  };
-
-  const addWish = (text: string) => {
-    if (text.trim()) {
-      setWishes(prevWishes => [text, ...prevWishes]);
-    }
   };
 
   const renderPage = () => {
@@ -48,9 +38,11 @@ function App() {
           />
         );
       case 'santas-room':
-        return <SantasRoom onNavigateBack={() => navigate('home')} onAddWish={addWish} />;
+        // No longer needs to pass onAddWish
+        return <SantasRoom onNavigateBack={() => navigate('home')} />;
       case 'wish-tree':
-        return <WishTreePage onNavigateBack={() => navigate('home')} wishes={wishes} />;
+        // No longer needs to pass wishes
+        return <WishTreePage onNavigateBack={() => navigate('home')} />;
       default:
         return <LandingPage onComplete={() => navigate('home')} />;
     }
