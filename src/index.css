@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-dark-navy text-white;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Cake Animation Styles */
+.cake-image {
+  position: absolute;
+  transition: all 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: pointer;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+.cake-image.zoomed {
+  top: 50% !important;
+  left: 50% !important;
+  width: auto !important;
+  height: 80vh !important;
+  transform: translate(-50%, -50%);
+}
+
+.cake-image.blown-out {
+  top: 50% !important;
+  left: 50% !important;
+  width: auto !important;
+  height: 80vh !important;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.5s ease-out 1.5s; /* Fade out after 1.5s delay */
+}
